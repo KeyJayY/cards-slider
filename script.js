@@ -1,3 +1,4 @@
+// setting variables
 const container = document.querySelector('.slider-content');
 const btnNext = document.querySelector('#nextbtn');
 const btnPrev = document.querySelector('#prevbtn');
@@ -5,6 +6,7 @@ const btnPrev = document.querySelector('#prevbtn');
 let cardWidth = document.querySelector('.slider-container ul li').offsetWidth;
 let dragging = false, startPosition;
 
+// function initializing slider
 const innit = () => {
     container.classList.add('dragging')
     const cardWidth = document.querySelector('.slider-container ul li').offsetWidth;
@@ -12,20 +14,21 @@ const innit = () => {
     container.classList.remove('dragging')
 }
 
-innit();
-
+// function innitializing dragging event
 const startdrag = (e) => {
     dragging = true;
     startPosition = (e.pageX || e.touches?.[0].pageX);
     container.classList.add('dragging')
 }
 
+// function finishing dragging event
 const stopdrag = () => {
     dragging = false;
     container.classList.remove('dragging')
     scroll();
 }
 
+// function scrolling to closest card edge
 const scroll = () => {
     const cardWidth = document.querySelector('.slider-container ul li').offsetWidth;
     let s = container.scrollLeft;
@@ -51,19 +54,22 @@ const scroll = () => {
     btnPrev.disabled = false;
 }
 
+// scrolling cards right while dragging
 const scrollR = (x) => {
     container.scrollLeft -=  x;
     startPosition += x;
     const cardWidth = document.querySelector('.slider-container ul li').offsetWidth;
-    if(container.scrollLeft> cardWidth*11-5){
+    if(container.scrollLeft > cardWidth*11-5){
         container.scrollLeft -= cardWidth*8
     }
 }
+
+// scrolling cards left while dragging
 const scrollL = (x) => {
     container.scrollLeft +=  x;
     startPosition -= x;
     const cardWidth = document.querySelector('.slider-container ul li').offsetWidth;
-    if(container.scrollLeft> cardWidth*11-1){
+    if(container.scrollLeft > cardWidth*11-1){
         container.scrollLeft -= cardWidth*8
     }
     if(container.scrollLeft < 1){
@@ -71,16 +77,20 @@ const scrollL = (x) => {
     }
 }
 
+// dragging cards function
 const drag = (e) => {
     if(!dragging) 
         return
     btnNext.disabled = true;
     btnPrev.disabled = true;
     startPosition - (e.pageX || e.touches?.[0].pageX) < 0 ? scrollR(Math.abs(startPosition - (e.pageX || e.touches?.[0].pageX))) : scrollL(Math.abs(startPosition - (e.pageX || e.touches?.[0].pageX)))
-    if(container.scrollLeft> cardWidth*11-1)
+    if(container.scrollLeft > cardWidth*11-1)
         container.scrollLeft -= cardWidth*8
+    if(container.scrollLeft < 5)
+        container.scrollLeft += cardWidth*8
 }
 
+// next card function
 const next = () => {
     const cardWidth = document.querySelector('.slider-container ul li').offsetWidth;
     container.scrollLeft += cardWidth;
@@ -88,6 +98,7 @@ const next = () => {
     setTimeout(scroll, 350);
 }
 
+// previous card function
 const prev = () => {
     const cardWidth = document.querySelector('.slider-container ul li').offsetWidth;
     container.scrollLeft -= cardWidth;
@@ -95,7 +106,10 @@ const prev = () => {
     setTimeout(scroll, 350);
 }
 
+// initializing slider
+innit();
 
+// add eventListiners
 container.addEventListener('mousedown', startdrag);
 document.addEventListener('mousemove', drag);
 document.addEventListener('mouseup', stopdrag);
