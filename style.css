@@ -45,7 +45,6 @@ i{
     display: flex;
     align-items: center;
     width: 75vw;
-    background-color: grey;
     z-index: 0;
     user-select: none;
 }
