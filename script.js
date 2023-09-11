@@ -1,4 +1,4 @@
-import { innit, addEventListeners } from "./js helpers/functions.js";
+import { innit, addEventListeners } from "./helpers/functions.js";
 
 // initializing slider
 innit();
